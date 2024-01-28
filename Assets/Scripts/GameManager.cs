@@ -14,6 +14,10 @@ public class GameManager : MonoBehaviour
 
   public TextMeshProUGUI gameOverText;
   public Button retryButton;
+  public TextMeshProUGUI scoreText;
+  public TextMeshProUGUI highScoreText;
+
+  private float score;
 
   private void Awake()
   {
@@ -40,6 +44,8 @@ public class GameManager : MonoBehaviour
   private void Update()
   {
     gameSpeed += gameSpeedIncrease * Time.deltaTime;
+    score += gameSpeed * Time.deltaTime;
+    scoreText.text = Mathf.FloorToInt(score).ToString("D5");
   }
 
   public void NewGame()
@@ -52,12 +58,15 @@ public class GameManager : MonoBehaviour
     }
 
     gameSpeed = initialGameSpeed;
+    score = 0f;
     enabled = true;
 
     player.gameObject.SetActive(true);
     spawner.gameObject.SetActive(true);
     gameOverText.gameObject.SetActive(false);
     retryButton.gameObject.SetActive(false);
+
+    UpdateHiscore();
   }
 
   public void GameOver()
@@ -69,6 +78,22 @@ public class GameManager : MonoBehaviour
     spawner.gameObject.SetActive(false);
     gameOverText.gameObject.SetActive(true);
     retryButton.gameObject.SetActive(true);
+
+    UpdateHiscore();
+  }
+
+  private void UpdateHiscore()
+  {
+    float hiscore = PlayerPrefs.GetFloat("hiscore", 0f);
+
+    if (score > hiscore)
+    {
+      hiscore = score;
+      PlayerPrefs.SetFloat("hiscore", hiscore);
+    }
+
+    highScoreText.text = Mathf.FloorToInt(hiscore).ToString("D5");
+
   }
 
 }
