@@ -6,4 +6,4 @@ Topics: Side Scrolling, Infinite Generation, Hiscores
 
 Version: Unity 2023.2.6f1 (LTS)
 
-Download the game [here]() 
+Download the game [here](https://github.com/Sourodeep-S/DinoGame-SS/releases/tag/v1.0.0(Final)) 
