@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 
   private Player player;
   private Spawner spawner;
+  private SoundEffectsPlayer sound;
 
   public TextMeshProUGUI gameOverText;
   public Button retryButton;
@@ -25,6 +26,8 @@ public class GameManager : MonoBehaviour
       Instance = this;
     else
       DestroyImmediate(gameObject);
+
+    sound = GetComponent<SoundEffectsPlayer>();
   }
 
   private void OnDestroy()
@@ -45,6 +48,8 @@ public class GameManager : MonoBehaviour
   {
     gameSpeed += gameSpeedIncrease * Time.deltaTime;
     score += gameSpeed * Time.deltaTime;
+    if (Mathf.FloorToInt(score) >= 100 && Mathf.FloorToInt(score) % 100 == 0)
+      sound.playpointSound();
     scoreText.text = Mathf.FloorToInt(score).ToString("D5");
   }
 
@@ -71,6 +76,7 @@ public class GameManager : MonoBehaviour
 
   public void GameOver()
   {
+    sound.playDieSound();
     gameSpeed = 0f;
     enabled = false;
 
